@@ -100,5 +100,16 @@ Click Create New Runner and copy the Registration Token.
 
 
 
+docker run -d \
+  --name gitea_runner \
+  -e GITEA_INSTANCE_URL=http://<your-gitea-ip-or-container-name>:3000 \
+  -e GITEA_RUNNER_REGISTRATION_TOKEN=<YOUR_COPIED_TOKEN> \
+  -e GITEA_RUNNER_NAME=my-docker-runner \
+  -e GITEA_RUNNER_LABELS=ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --restart always \
+  gitea/act_runner:latest
+
+
 
 
