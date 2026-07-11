@@ -90,3 +90,15 @@ docker compose restart server
 
 
 
+
+2. Get the Runner Registration Token
+Log into Gitea as an admin.
+
+Go to Site Administration -> Actions -> Runners.
+
+Click Create New Runner and copy the Registration Token.
+
+
+
+
+
