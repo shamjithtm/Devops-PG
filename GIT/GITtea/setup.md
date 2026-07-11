@@ -111,5 +111,14 @@ docker run -d \
   gitea/act_runner:latest
 
 
+docker run -d \
+  --name gitea_runner \
+  -e GITEA_INSTANCE_URL=http://gitea:3010 \
+  -e GITEA_RUNNER_REGISTRATION_TOKEN=gAGqyyi3FPeo5ssNPqzAlmKtfndeCx3mIUXSqYlT \
+  -e GITEA_RUNNER_NAME=gittea-runner-hs2 \
+  -e GITEA_RUNNER_LABELS=ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --restart always \
+  gitea/act_runner:latest
 
 
