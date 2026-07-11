@@ -43,3 +43,23 @@ services:
       - POSTGRES_DB=gitea
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Start the containers:
+
+
+docker compose up -d
+
