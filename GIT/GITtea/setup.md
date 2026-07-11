@@ -2,3 +2,44 @@ Setup GIT tea
 #########################################################################################################################################s
 
 mkdir gitea-docker && cd gitea-docker
+
+
+
+Create a docker-compose.yml file:
+
+YAML
+version: '3.8'
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=secret_db_password
+    restart: always
+    volumes:
+      - ./gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: gitea_db
+    restart: always
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=secret_db_password
+      - POSTGRES_DB=gitea
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
