@@ -80,7 +80,13 @@ Ini, TOML
 ENABLED = true
 Restart your Gitea container to apply changes:
 
-Bash
+
 docker compose restart server
+
+
+
+
+<img width="1919" height="754" alt="image" src="https://github.com/user-attachments/assets/90ec2684-c4a2-47ce-8313-73e08780999c" />
+
 
 
