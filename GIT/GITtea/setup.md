@@ -122,3 +122,14 @@ docker run -d \
   gitea/act_runner:latest
 
 
+
+1. Close Public Registration (Crucial!)
+By default, anyone who finds your Gitea URL can click "Register" and create an account on your server. While they still won't see your private repos, they can use your server's resources to host their own stuff.
+
+You should disable public registration immediately. Open your ./gitea-data/gitea/conf/app.ini file and change or add this setting under the [service] block:
+
+Ini, TOML
+[service]
+DISABLE_REGISTRATION = true
+ALLOW_ONLY_EXTERNAL_REGISTRATION = false
+
