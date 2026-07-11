@@ -66,3 +66,21 @@ docker compose up -d
 
 <img width="1893" height="903" alt="image" src="https://github.com/user-attachments/assets/fe791397-b721-4ed6-b8ac-124cdfe9e324" />
 
+
+
+
+Step 2: Enable Gitea Actions & Set Up the Runner
+Gitea Actions (which uses GitHub Actions syntax) is disabled by default.
+
+1. Enable Actions in Gitea
+Open the Gitea configuration file located at ./gitea-data/gitea/conf/app.ini on your host machine and add the following lines at the bottom:
+
+Ini, TOML
+[actions]
+ENABLED = true
+Restart your Gitea container to apply changes:
+
+Bash
+docker compose restart server
+
+
