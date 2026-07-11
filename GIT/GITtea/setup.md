@@ -63,3 +63,6 @@ Start the containers:
 
 docker compose up -d
 
+
+<img width="1893" height="903" alt="image" src="https://github.com/user-attachments/assets/fe791397-b721-4ed6-b8ac-124cdfe9e324" />
+
