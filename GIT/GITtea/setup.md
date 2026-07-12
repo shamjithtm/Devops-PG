@@ -188,3 +188,158 @@ git push -u origin main
 ```
 
 
+CI CD Pipe line 
+
+
+Step 1: Verify the runner is connected
+
+
+Go to Site Administration (or Repository Settings if it's a repo-level runner).
+Open Actions → Runners.
+
+
+here it not showing so  we need troubleshoot 
+
+docker logs gitea_runner
+
+
+Cannot ping the Gitea instance server
+lookup gitea on 172.31.0.2:53: no such host
+
+
+docker inspect gitea_runner | grep GITEA
+                "GITEA_RUNNER_NAME=gittea-runner-hs2",
+                "GITEA_RUNNER_LABELS=ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye",
+                "GITEA_INSTANCE_URL=http://gitea:3010",
+                "GITEA_RUNNER_REGISTRATION_TOKEN=gAGqyyi3FPeo5ssNPqzAlmKtfndeCx3mIUXSqYlT",
+
+
+
+
+First, check your containers
+
+Run:
+
+docker ps
+
+I want to see:
+
+The container name for Gitea.
+Which ports are published.
+
+
+
+root@ip-172-31-4-207:/var/www/docker/gitea-docker# docker inspect gitea --format='{{json .NetworkSettings.Networks}}'
+{"gitea-docker_default":{"IPAMConfig":null,"Links":null,"Aliases":["gitea","server"],"MacAddress":"42:92:6b:f9:40:e0","DriverOpts":null,"GwPriority":0,"NetworkID":"1e7d3132967782415cad2236a7c9073ab8ba02d754515d9f1d264c1707d13431","EndpointID":"1abb21cb457dac77638ffcee84b2db2ebedd856564a0962dcfcfc72c38547482","Gateway":"172.28.0.1","IPAddress":"172.28.0.3","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"DNSNames":["gitea","server","f9cf3be4dbbf"]}}
+
+
+it shoukd be same network 
+
+docker network connect gitea-docker_default gitea_runner
+
+docker restart gitea_runner
+
+
+
+
+
+ ✘ Contain... Error response from daemon: Conflict. The container name "/gitea_runner" is already in use by container "5fbe9a6dadc08934f72e647ba2abc8f664dc026bb59dfa0b4a053fdd59cd42bd". You have to remove (or rename) that container to be able to reuse that name. 0.0s
+Error response from daemon: Conflict. The container name "/gitea_runner" is already in use by container "5fbe9a6dadc08934f72e647ba2abc8f664dc026bb59dfa0b4a053fdd59cd42bd". You have to remove (or rename) that container to be able to reuse that name.
+root@ip-172-31-4-207:/var/www/docker/gitea-docker# git rm 5fbe9a6dadc08934f72e647ba2abc8f664dc026bb59dfa0b4a053fdd59cd42bd
+
+
+docker stop gitea_runner
+docker rm gitea_runner
+
+
+Fixed Docker-compose with runner 
+
+
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: always
+    environment:
+      USER_UID: "1000"
+      USER_GID: "1000"
+      GITEA__database__DB_TYPE: postgres
+      GITEA__database__HOST: db:5432
+      GITEA__database__NAME: gitea
+      GITEA__database__USER: gitea
+      GITEA__database__PASSWD: mVGVM7qeZH11
+    volumes:
+      - ./gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3010:3000"
+      - "2222:22"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: gitea_db
+    restart: always
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: mVGVM7qeZH11
+      POSTGRES_DB: gitea
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  gitea_runner:
+    image: gitea/act_runner:latest
+    container_name: gitea_runner
+    restart: always
+    depends_on:
+      - server
+    environment:
+      GITEA_INSTANCE_URL: http://server:3000
+      GITEA_RUNNER_REGISTRATION_TOKEN: ${GITEA_RUNNER_TOKEN}
+      GITEA_RUNNER_NAME: gittea-runner-hs2
+      GITEA_RUNNER_LABELS: ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye
+    volumes:
+      - ./runner:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      docker logs -f gitea_runner
+
+      Waiting to retry ...
+level=info msg="Registering runner, arch=amd64, os=linux, version=v0.6.1."
+level=error msg="Invalid input, please re-run act command." error="token is empty"
+Error: token is empty
+Waiting to retry ...
+
+
+
+
+nano .env
+
+GITEA_RUNNER_TOKEN=TQTank2UhiOldL0BdB40puh7d8doI2HsVUzaki4Y
+
+
+
+
+ 
+then  Run to check all variable in env taken or not
+
+docker compose config
