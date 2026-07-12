@@ -472,5 +472,8 @@ EC2_USER: The SSH username (e.g., ubuntu for Ubuntu, ec2-user for Amazon Linux).
 
 EC2_SSH_KEY: The entire contents of your private key (.pem file) used to access the EC2 instance.
 
+<img width="1770" height="757" alt="image" src="https://github.com/user-attachments/assets/8ec6da4d-2076-4878-ac18-9dbcf6d3bd31" />
+
+
 
 
