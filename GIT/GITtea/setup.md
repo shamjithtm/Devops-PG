@@ -476,4 +476,64 @@ EC2_SSH_KEY: The entire contents of your private key (.pem file) used to access 
 
 
 
+In Gitea, if a runner's type is Individual, it means it was registered using a token from a different specific repository or user account. It is locked to that specific project, meaning your current repository is completely blocked from seeing or using it—even if the labels match perfectly.
+
+
+Runner should be global then only we can use in all repo , we need to create runner from site-adminstration -runner 
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: always
+    environment:
+      USER_UID: "1000"
+      USER_GID: "1000"
+      GITEA_actons_ENABLED: "true"
+      GITEA_actions_DEFAULT_ACTIONS_URL: github
+      GITEA__database__DB_TYPE: postgres
+      GITEA__database__HOST: db:5432
+      GITEA__database__NAME: gitea
+      GITEA__database__USER: gitea
+      GITEA__database__PASSWD: mVGVM7qeZH11
+    volumes:
+      - ./gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3010:3000"
+      - "2222:22"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: gitea_db
+    restart: always
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: mVGVM7qeZH11
+      POSTGRES_DB: gitea
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data 
+
+  gitea-runner:
+    image: gitea/act_runner:latest
+    container_name: gitea-runner-hs2
+    restart: unless-stopped
+    environment:
+      # 1. Your Gitea Instance URL (change if using a domain or different port)
+      - GITEA_INSTANCE_URL=http://gitea:3000
+
+      # 2. Paste the GLOBAL token from Site Admin -> Actions -> Runners -> Create New Runner
+      - GITEA_RUNNER_REGISTRATION_TOKEN=gAGqyyi3FPeo5ssNPqzAlmKtfndeCx3mIUXSqYlT
+
+    volumes:
+      # Allows the runner to spin up Docker containers for your workflow steps
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data-global:/data
+
+
+
+
 
