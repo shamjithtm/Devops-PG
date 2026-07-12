@@ -159,7 +159,18 @@ git clone ssh://git@50.18.206.90:2222/patientgain/test.git
 
 
 
+git branch -a
+git remote -v
+On branch main
 
+then 
+
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin ssh://git@50.18.206.90:2222/patientgain/test.git
+git push -u origin main
 
 
 
