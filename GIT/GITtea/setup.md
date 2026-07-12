@@ -448,6 +448,14 @@ docker exec -it gitea exec cat /data/gitea/conf/app.ini
 
 then goto repo setting and check action is showing or not 
 
+
+in git 
+
+mkdir -p .gitea/workflows
+touch .gitea/workflows/deploy.yml
+git commit -m "add CI/CD workflow"
+git push origin main
+
 <img width="1916" height="611" alt="image" src="https://github.com/user-attachments/assets/203f0272-fb37-4250-9199-c464b053237d" />
 
 
