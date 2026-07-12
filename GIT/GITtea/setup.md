@@ -370,3 +370,7 @@ store it as gittea action secrets
 <img width="1919" height="840" alt="image" src="https://github.com/user-attachments/assets/34e7c57a-e93b-4336-b81a-5a4ad963ac17" />
 
 
+Add SEMAPHORE_URL
+
+
+
