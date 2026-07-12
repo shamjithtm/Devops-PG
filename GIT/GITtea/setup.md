@@ -370,7 +370,85 @@ store it as gittea action secrets
 <img width="1919" height="840" alt="image" src="https://github.com/user-attachments/assets/34e7c57a-e93b-4336-b81a-5a4ad963ac17" />
 
 
+
+update the 
+
+
 Add SEMAPHORE_URL
+
+
+update the  docker-compose.yml for action enabled 
+
+
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: always
+    environment:
+      USER_UID: "1000"
+      USER_GID: "1000"
+      GITEA_actons_ENABLED: "true"
+      GITEA_actions_DEFAULT_ACTIONS_URL: github
+      GITEA__database__DB_TYPE: postgres
+      GITEA__database__HOST: db:5432
+      GITEA__database__NAME: gitea
+      GITEA__database__USER: gitea
+      GITEA__database__PASSWD: mVGVM7qeZH11
+    volumes:
+      - ./gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3010:3000"
+      - "2222:22"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: gitea_db
+    restart: always
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: mVGVM7qeZH11
+      POSTGRES_DB: gitea
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  gitea_runner:
+    image: gitea/act_runner:latest
+    container_name: gitea_runner
+    restart: always
+    depends_on:
+      - server
+    environment:
+      GITEA_INSTANCE_URL: http://server:3000
+      GITEA_RUNNER_REGISTRATION_TOKEN: ${GITEA_RUNNER_TOKEN}
+      GITEA_RUNNER_NAME: gittea-runner-hs2
+      GITEA_RUNNER_LABELS: ubuntu-latest:docker://node:18-bullseye,ubuntu-22.04:docker://node:18-bullseye
+    volumes:
+      - ./runner:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+
+
+
+
+
+docker compose up -d 
+
+then check here 
+
+docker exec -it gitea exec cat /data/gitea/conf/app.ini
+<img width="1096" height="596" alt="image" src="https://github.com/user-attachments/assets/0844631c-8839-4e40-92e4-000ecee1f831" />
+
+
+then goto repo setting and check action is showing or not 
+
+<img width="1916" height="611" alt="image" src="https://github.com/user-attachments/assets/203f0272-fb37-4250-9199-c464b053237d" />
 
 
 
