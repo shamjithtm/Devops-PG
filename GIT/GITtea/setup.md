@@ -538,3 +538,20 @@ services:
 <img width="1920" height="895" alt="image" src="https://github.com/user-attachments/assets/63da8df0-dc2e-43c6-beb9-a88361974933" />
 
 
+
+Step 1: Create a config.yaml File
+In the same directory as your docker-compose file (/var/www/docker/gitea-docker), create a new file named config.yaml:
+
+Bash
+nano config.yaml
+Paste the following two lines into it. This tells your runner to force all temporary job containers to join your custom Docker network instead of going off into isolation:
+
+YAML
+container:
+  network: "gitea_network"
+Save and close the file.
+
+
+this repo created by orgznization so secret should created in that 
+
+
