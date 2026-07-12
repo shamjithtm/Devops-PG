@@ -1,69 +1,24 @@
 {
   "main": {
-    "id": "cdc5a3c3521a0b55",
+    "id": "fe51381c765b49d2",
     "type": "split",
     "children": [
       {
-        "id": "e4a6545a0830ad9e",
+        "id": "8a598a48f8ecab15",
         "type": "tabs",
         "children": [
           {
-            "id": "6f994bb7174f9a62",
+            "id": "a285d81168a7cd72",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Welcome.md",
+                "file": "GIT/GITtea/setup.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Welcome"
-            }
-          },
-          {
-            "id": "e48c522c8bfc9f96",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled"
-            }
-          },
-          {
-            "id": "a9f5c2a3ff9b4326",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled 1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled 1"
-            }
-          }
-        ],
-        "currentTab": 2
-      },
-      {
-        "id": "a48c92933a7dfde6",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "98e78b183908b999",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "title": "setup"
             }
           }
         ]
@@ -72,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "e4e1caf8fbbd251f",
+    "id": "af5b1361d3817fe3",
     "type": "split",
     "children": [
       {
-        "id": "5bedb061e4ff4cd4",
+        "id": "93a2f12758f73014",
         "type": "tabs",
         "children": [
           {
-            "id": "86f06bf432645965",
+            "id": "267f4906db191525",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -93,7 +48,7 @@
             }
           },
           {
-            "id": "0a30abb432c122c0",
+            "id": "d95f1824bb09c28e",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -110,7 +65,7 @@
             }
           },
           {
-            "id": "c5d56844d8de3fbd",
+            "id": "4ca02d2231df2aed",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -126,20 +81,20 @@
     "width": 300
   },
   "right": {
-    "id": "ff6bae7be382342f",
+    "id": "c75b54999cd95d05",
     "type": "split",
     "children": [
       {
-        "id": "737a3423a46bd92a",
+        "id": "6d9c6988e55f9bc3",
         "type": "tabs",
         "children": [
           {
-            "id": "f026cd37797f238c",
+            "id": "6bda9e0af79eede3",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled 1.md",
+                "file": "GIT/GITtea/setup.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,25 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Untitled 1"
+              "title": "Backlinks for setup"
             }
           },
           {
-            "id": "b14c5d428d361b4e",
+            "id": "7e9dd74f6d12336d",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled 1.md",
+                "file": "GIT/GITtea/setup.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Untitled 1"
+              "title": "Outgoing links from setup"
             }
           },
           {
-            "id": "5fad56538be89f28",
+            "id": "b62999c88685c4c8",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -182,7 +137,7 @@
             }
           },
           {
-            "id": "53ead9a8912a28e0",
+            "id": "f455a4b45f33a191",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -196,18 +151,18 @@
             }
           },
           {
-            "id": "fe6915096570a040",
+            "id": "95de7ce93100c937",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled 1.md",
+                "file": "GIT/GITtea/setup.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Untitled 1"
+              "title": "Outline of setup"
             }
           }
         ]
@@ -228,11 +183,6 @@
       "bases:Create new base": false
     }
   },
-  "active": "a9f5c2a3ff9b4326",
-  "lastOpenFiles": [
-    "Kopila setup.md",
-    "Untitled 1.md",
-    "Untitled",
-    "Welcome.md"
-  ]
+  "active": "a285d81168a7cd72",
+  "lastOpenFiles": []
 }
