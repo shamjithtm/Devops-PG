@@ -552,6 +552,60 @@ container:
 Save and close the file.
 
 
+
+
+<img width="1920" height="895" alt="image" src="https://github.com/user-attachments/assets/c2111e0d-fc87-445b-8983-78ee29961429" />
+
+
+
 this repo created by orgznization so secret should created in that 
+
+
+
+
+name: Remote EC2 Dev Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Fetch the repository files into the runner container
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Stream and extract repository files using Native SSH
+      - name: Copy Files and Deploy via SSH
+        env:
+          TARGET_HOST: ${{ vars.EC2_DEV || secrets.EC2_DEV }}
+          TARGET_USER: ${{ vars.EC2_USER || secrets.EC2_USER }}
+          TARGET_KEY:  ${{ secrets.EC2_DEV_KEY }}
+        run: |
+          # Setup the runner's local SSH key environment
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$TARGET_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          echo "📦 Compressing files and streaming over SSH..."
+          
+          # This creates a tar package of your code, pipes it via SSH, 
+          # and uses sudo to safely extract it directly into /var/www/test
+          tar -czf - . | ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${TARGET_USER}@${TARGET_HOST}" "sudo tar -xzf - -C /var/www/test"
+
+          echo "🔧 Applying directory ownership and permissions..."
+          
+          # Run final ownership fixes on the target folder
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no "${TARGET_USER}@${TARGET_HOST}" << 'EOF'
+            sudo chmod -R 755 /var/www/test
+            sudo chown -R hs2-usr:hs2-usr /var/www/test
+            echo "🚀 Target files updated successfully!"
+          EOF
 
 
