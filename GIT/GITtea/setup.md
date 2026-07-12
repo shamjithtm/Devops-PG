@@ -350,3 +350,7 @@ time="2026-07-12T08:28:20Z" level=info msg="runner: gittea-runner-hs2, with vers
 then  Run to check all variable in env taken or not
 
 docker compose config
+
+
+<img width="1919" height="847" alt="image" src="https://github.com/user-attachments/assets/394bacea-87ee-47f2-af72-b5d22d4bce8b" />
+
