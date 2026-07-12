@@ -354,3 +354,19 @@ docker compose config
 
 <img width="1919" height="847" alt="image" src="https://github.com/user-attachments/assets/394bacea-87ee-47f2-af72-b5d22d4bce8b" />
 
+
+
+Semaphore UI  deployemnt gittea pipelne 
+
+
+
+semaphore UI - > usermenu > API tokens -> create one -> Copy it 
+
+
+<img width="1919" height="757" alt="image" src="https://github.com/user-attachments/assets/fd092db0-890a-4948-a915-69fc69a0bb1f" />
+
+store it as gittea action secrets 
+
+<img width="1919" height="840" alt="image" src="https://github.com/user-attachments/assets/34e7c57a-e93b-4336-b81a-5a4ad963ac17" />
+
+
