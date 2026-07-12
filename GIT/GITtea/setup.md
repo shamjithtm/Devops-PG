@@ -336,6 +336,13 @@ nano .env
 
 GITEA_RUNNER_TOKEN=TQTank2UhiOldL0BdB40puh7d8doI2HsVUzaki4Y
 
+docker logs -f gitea_runner
+
+SUCCESS
+time="2026-07-12T08:28:20Z" level=info msg="Starting runner daemon"
+time="2026-07-12T08:28:20Z" level=info msg="runner: gittea-runner-hs2, with version: v0.6.1, with labels: [ubuntu-latest ubuntu-22.04], declare successfully"
+
+
 
 
 
