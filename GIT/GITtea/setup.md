@@ -459,4 +459,18 @@ git push origin main
 <img width="1916" height="611" alt="image" src="https://github.com/user-attachments/assets/203f0272-fb37-4250-9199-c464b053237d" />
 
 
+Step 2: Configure Gitea Secrets
+To securely connect to your remote EC2 instance without exposing sensitive data in your code, you need to add your SSH details as Secrets in Gitea.
+
+Go to your Gitea Repository -> Settings -> Actions -> Secrets.
+
+Add the following secrets:
+
+EC2_HOST: The public IP address or DNS of your EC2 instance.
+
+EC2_USER: The SSH username (e.g., ubuntu for Ubuntu, ec2-user for Amazon Linux).
+
+EC2_SSH_KEY: The entire contents of your private key (.pem file) used to access the EC2 instance.
+
+
 
