@@ -535,5 +535,6 @@ services:
 
 
 
+<img width="1920" height="895" alt="image" src="https://github.com/user-attachments/assets/63da8df0-dc2e-43c6-beb9-a88361974933" />
 
 
