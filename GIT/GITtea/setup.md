@@ -135,14 +135,18 @@ By default, anyone who finds your Gitea URL can click "Register" and create an a
 You should disable public registration immediately. Open your ./gitea-data/gitea/conf/app.ini file and change or add this setting under the [service] block:
 
 Ini, TOML
+```
 [service]
 DISABLE_REGISTRATION = true
 ALLOW_ONLY_EXTERNAL_REGISTRATION = false
+```
 
 
 Clone the Repo in Local 
 
+```
 ssh-keygen -t ed25519 -C "your_email@example.com"
+```
 
 Copy the public and add in the profile 
 
@@ -165,11 +169,14 @@ git clone ssh://git@50.18.206.90:2222/patientgain/test.git
 
 
 
+```
 git branch -a
 git remote -v
 On branch main
 
+```
 then 
+```
 
 git init
 git add .
@@ -178,5 +185,6 @@ git branch -M main
 git remote add origin ssh://git@50.18.206.90:2222/patientgain/test.git
 git push -u origin main
 
+```
 
 
