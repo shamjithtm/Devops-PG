@@ -133,3 +133,29 @@ Ini, TOML
 DISABLE_REGISTRATION = true
 ALLOW_ONLY_EXTERNAL_REGISTRATION = false
 
+
+Clone the Repo in Local 
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+Copy the public and add in the profile 
+
+Step 4: Add the key to Gitea
+Log in to Gitea.
+Click your avatar → Settings.
+Go to SSH / GPG Keys.
+Click Add Key.
+Paste the public key and save.
+
+
+Alllow 2222 in security group then 
+
+git clone ssh://git@50.18.206.90:2222/patientgain/test.git
+
+<img width="872" height="239" alt="image" src="https://github.com/user-attachments/assets/853ce586-8103-4d4d-9303-992a11a931ce" />
+
+
+
+
+
+
