@@ -62,3 +62,54 @@ sudo git pull
 sudo ln -sf /usr/local/src/lynis/lynis /usr/local/bin/lynis
 
  /usr/local/bin/lynis audit system
+
+
+
+ add in wazuh agent 
+
+
+Step 3: Configure the Wazuh Agent
+
+Edit the agent configuration:
+
+sudo nano /var/ossec/etc/ossec.conf
+
+Add:
+
+<localfile>
+  <location>/var/log/lynis-report.dat</location>
+  <log_format>syslog</log_format>
+</localfile>
+
+Save the file.
+
+Step 4: Restart the Wazuh Agent
+sudo systemctl restart wazuh-agent
+
+Step 5: Verify the agent
+sudo tail -f /var/ossec/logs/ossec.log
+
+
+
+crete cronjob to check it 
+
+vim lynis-audit.sh
+
+
+#!/bin/bash
+
+/usr/local/bin/lynis audit system --quiet
+
+logger "Lynis audit completed"
+
+
+
+chmod +x lynis-audit.sh
+
+
+
+crontab -e 
+
+#### security Audit Cron Jobs
+
+0 2 * * 0 /scripts/security/lynis-audit.sh
