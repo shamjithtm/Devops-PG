@@ -128,3 +128,31 @@ LogLevel VERBOSE
 TCPKeepAlive no
 ClientAliveCountMax 2
 Note: After updating, verify the configuration syntax with sudo sshd -t before restarting the service using sudo systemctl restart sshd.
+
+
+
+
+
+
+Create a hardening configuration file, for example /etc/sysctl.d/99-lynis-hardening.conf, and add the following values:
+
+Plaintext
+# File system protections
+fs.protected_fifos = 2
+fs.protected_regular = 2
+
+# Restrict kernel pointer exposure and module manipulation
+kernel.kptr_restrict = 2
+kernel.sysrq = 0
+kernel.yama.ptrace_scope = 1
+
+# Disable network redirects (prevents MITM routing tricks)
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.default.accept_redirects = 0
+net.ipv6.conf.all.accept_redirects = 0
+net.ipv6.conf.default.accept_redirects = 0
+
+# Spoof protection (Reverse Path Filtering) and logging
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.all.log_martians = 1
+net.ipv4.conf.default.log_martians = 1
