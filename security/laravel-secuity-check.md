@@ -113,3 +113,18 @@ crontab -e
 #### security Audit Cron Jobs
 
 0 2 * * 0 /scripts/security/lynis-audit.sh
+
+
+SSH Hardening (/etc/ssh/sshd_config)
+Your SSH configuration is accepting a bit too much default behavior. Open /etc/ssh/sshd_config (or a dedicated drop-in file under /etc/ssh/sshd_config.d/) and update or add the following directives:
+
+Plaintext
+AllowTcpForwarding no
+AllowAgentForwarding no
+X11Forwarding no
+MaxAuthTries 3
+MaxSessions 2
+LogLevel VERBOSE
+TCPKeepAlive no
+ClientAliveCountMax 2
+Note: After updating, verify the configuration syntax with sudo sshd -t before restarting the service using sudo systemctl restart sshd.
