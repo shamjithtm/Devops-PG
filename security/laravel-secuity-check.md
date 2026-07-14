@@ -45,3 +45,20 @@ aide --check
 
 
 <img width="1122" height="704" alt="image" src="https://github.com/user-attachments/assets/026390c5-6d19-4fc5-a3c5-73136c627150" />
+
+
+
+lynis
+
+
+cd /usr/local/src
+
+sudo git clone https://github.com/CISOfy/lynis.git
+
+cd /usr/local/src/lynis
+sudo git pull
+
+
+sudo ln -sf /usr/local/src/lynis/lynis /usr/local/bin/lynis
+
+ /usr/local/bin/lynis audit system
