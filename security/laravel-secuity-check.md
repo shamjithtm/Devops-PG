@@ -167,3 +167,46 @@ net.ipv4.conf.default.log_martians = 1
 
 
 systemd-analyze security nginx.service
+
+
+
+
+Bash
+sudo systemctl edit nginx
+This opens a blank file. Paste the following hardening directives inside the [Service] block to knock down the majority of those security risks:
+
+Ini, TOML
+[Service]
+# Prevents the service and its children from gaining new privileges (Fixes NoNewPrivileges)
+NoNewPrivileges=yes
+
+# Denies access to physical hardware devices like raw disks/USB (Fixes PrivateDevices)
+PrivateDevices=yes
+
+# Makes /usr, /boot, and /etc read-only for this service
+ProtectSystem=full
+
+# Hides /home, /root, and /run/user entirely from the service
+ProtectHome=yes
+
+# Makes kernel variables in /proc/sys read-only (Fixes ProtectKernelTunables)
+ProtectKernelTunables=yes
+
+# Prevents the service from loading or unloading kernel modules (Fixes ProtectKernelModules)
+ProtectKernelModules=yes
+
+# Prevents modifications to the control group architecture (Fixes ProtectControlGroups)
+ProtectControlGroups=yes
+
+# Prevents the creation of writable and executable memory mappings (Fixes MemoryDenyWriteExecute)
+MemoryDenyWriteExecute=yes
+
+# Restricts the service from creating new namespaces (Fixes RestrictNamespaces)
+RestrictNamespaces=yes
+
+# Locks down system host/domain name modifications (Fixes ProtectHostname)
+ProtectHostname=yes
+Save and exit the editor. Systemd will automatically reload the configuration. Then, restart your service to apply the changes:
+
+Bash
+sudo systemctl restart nginx
