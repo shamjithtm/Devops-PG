@@ -152,6 +152,9 @@ net.ipv4.conf.default.accept_redirects = 0
 net.ipv6.conf.all.accept_redirects = 0
 net.ipv6.conf.default.accept_redirects = 0
 
+
+sudo sysctl --system
+
 # Spoof protection (Reverse Path Filtering) and logging
 net.ipv4.conf.all.rp_filter = 1
 net.ipv4.conf.all.log_martians = 1
