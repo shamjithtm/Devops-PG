@@ -41,3 +41,7 @@ lynis audit system
 clamscan -r /var/www
 
 aide --check
+
+
+
+<img width="1122" height="704" alt="image" src="https://github.com/user-attachments/assets/026390c5-6d19-4fc5-a3c5-73136c627150" />
