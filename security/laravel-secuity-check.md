@@ -29,3 +29,15 @@ system
 passthru
 proc_open
 popen
+
+trivy fs /
+
+composer audit
+
+semgrep scan .
+
+lynis audit system
+
+clamscan -r /var/www
+
+aide --check
