@@ -302,3 +302,8 @@ aws wafv2 get-ip-set --name crowdsec-ipset --scope REGIONAL --region us-west-1 -
 # Check the IPv6 Cloud Set
 aws wafv2 get-ip-set --name crowdsec-ipset-ipv6 --scope REGIONAL --region us-west-1 --id $(aws wafv2 list-ip-sets --scope REGIONAL --region us-west-1 | jq -r '.IPSets[] | select(.Name=="crowdsec-ipset-ipv6") | .Id') | jq '.IPSet.Addresses'
 
+
+
+
+
+sudo journalctl -xeu crowdsec-aws-waf-bouncer.service --no-pager | tail -n 20
