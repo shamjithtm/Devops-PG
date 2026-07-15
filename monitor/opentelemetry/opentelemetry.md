@@ -90,3 +90,8 @@ Once this is running, your application will stream traces to your observability 
 base14
 
 Which observability backend or APM tool (such as Jaeger, SigNoz, Datadog, or Grafana Cloud) are you planning to send your telemetry data to, so we can ensure your network and header configurations match perfectly?
+
+
+Error: failed to get config: cannot resolve the configuration: cannot retrieve the configuration: unable to read the file file:/opt/aws/aws-otel-collector/etc/config.yaml: open /opt/aws/aws-otel-collector/etc/config.yaml: no such file or directory
+
+sudo mkdir -p /opt/aws/aws-otel-collector/etc/
