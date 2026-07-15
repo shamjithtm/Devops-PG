@@ -26,3 +26,34 @@ curl -s https://install.crowdsec.net | sudo sh
 
 
 dnf install crowdsec-aws-waf-bouncer
+
+sudo cscli bouncers add aws-waf-bouncer
+
+Step 1: Open the configuration file
+Bash
+sudo nano /etc/crowdsec/bouncers/crowdsec-aws-waf-bouncer.yaml
+Step 2: Replace the contents
+Clear out the file and paste this clean, minimal template. Make sure to update the placeholder values (especially your API key, your actual AWS Web ACL name, and the regional scope):
+
+
+
+
+
+
+YAML
+api_key: <YOUR_API_KEY_HERE>
+api_url: "http://127.0.0.1:8085/"
+update_frequency: 10s
+
+# This is the block the parser is complaining about:
+waf_config:
+  - web_acl_name: "your-web-acl-name"    # Replace with your actual AWS WAF ACL name
+    fallback_action: "ban"
+    rule_group_name: "crowdsec-rule-group"
+    scope: "REGIONAL"                    # Use "CLOUDFRONT" if it's a CloudFront WAF
+    region: "us-east-1"                  # Use the region where your WAF lives (e.g. us-east-1, us-west-2)
+    ipset_prefix: "crowdsec-ipset"
+
+
+    sudo /usr/bin/crowdsec-aws-waf-bouncer -c /etc/crowdsec/bouncers/crowdsec-aws-waf-bouncer.yaml -t
+
