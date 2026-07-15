@@ -350,3 +350,11 @@ Check the status to ensure it transitions cleanly into that Polling decisions lo
 
 Bash
 sudo systemctl status crowdsec-aws-waf-bouncer
+
+
+
+
+
+
+sudo cscli collections install crowdsecurity/nginx
+sudo cscli collections install crowdsecurity/http-cve
