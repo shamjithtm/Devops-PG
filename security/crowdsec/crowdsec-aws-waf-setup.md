@@ -20,3 +20,9 @@ Step 1: Configure AWS IAM Permissions  The bouncer needs permissions to create, 
         }
     ]
 }
+
+
+curl -s https://install.crowdsec.net | sudo sh
+
+
+dnf install crowdsec-aws-waf-bouncer
