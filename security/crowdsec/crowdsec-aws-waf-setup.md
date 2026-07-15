@@ -307,3 +307,46 @@ aws wafv2 get-ip-set --name crowdsec-ipset-ipv6 --scope REGIONAL --region us-wes
 
 
 sudo journalctl -xeu crowdsec-aws-waf-bouncer.service --no-pager | tail -n 20
+
+
+
+Step 1: Open the configuration file
+Bash
+sudo nano /etc/crowdsec/bouncers/crowdsec-aws-waf-bouncer.yaml
+Step 2: Replace the contents with this complete block
+Copy and paste this exact layout, which includes the missing rule_group_name line:
+
+YAML
+api_key: "euaAVAXRFrFYIsipD4Wtx67NHMF6SF4PNXvoV0N4HmU"
+api_url: "http://127.0.0.1:8085/"
+update_frequency: 10s
+daemon: true
+log_media: file
+log_dir: /var/log/
+log_level: info
+
+waf_config:
+  - web_acl_name: "GeoIP-Block"
+    fallback_action: ban
+    rule_group_name: "crowdsec-rule-group"  # <-- Added this mandatory field
+    scope: "REGIONAL"
+    region: "us-west-1"
+    ipset_prefix: "crowdsec-ipset"
+    ip_header: "X-Forwarded-For"
+    ip_header_position: "LAST"
+Step 3: Run the configuration test
+Save and close the file, then verify it handles the change perfectly:
+
+Bash
+sudo /usr/bin/crowdsec-aws-waf-bouncer -c /etc/crowdsec/bouncers/crowdsec-aws-waf-bouncer.yaml -t
+(You should get no output, which means validation passed).
+
+Step 4: Restart the bouncer
+Now fire up the system daemon:
+
+Bash
+sudo systemctl start crowdsec-aws-waf-bouncer
+Check the status to ensure it transitions cleanly into that Polling decisions loop we saw working earlier:
+
+Bash
+sudo systemctl status crowdsec-aws-waf-bouncer
