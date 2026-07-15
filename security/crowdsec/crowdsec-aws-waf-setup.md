@@ -358,3 +358,115 @@ sudo systemctl status crowdsec-aws-waf-bouncer
 
 sudo cscli collections install crowdsecurity/nginx
 sudo cscli collections install crowdsecurity/http-cve
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To achieve this, we will use the power of the setup you just built: Nginx will record the 404 errors, CrowdSec will read those logs and trigger a custom ban scenario, and your AWS WAF Bouncer will instantly push the ban to the AWS edge to block the attacker before they can hit your Laravel app again.
+
+Here is the step-by-step guide to setting up the standard Nginx/Laravel protection rules along with your custom 10x 404 error blocking requirement.
+
+Step 1: Install the Nginx & Base Web Collections
+CrowdSec features pre-built bundles (collections) that instantly protect Laravel/Nginx environments from common web attacks, scanner bots, and .env file probing.
+
+Run the following command to install the base Nginx and generic HTTP attack collections:
+
+Bash
+sudo cscli collections install crowdsecurity/nginx
+sudo cscli collections install crowdsecurity/http-cve
+Step 2: Create the Custom 10x 404 Blocking Scenario
+By default, CrowdSec doesn't aggressively block 404s because standard users occasionally click broken links. However, we can create a custom scenario to catch aggressive scanners.
+
+Create a new file for your custom rule:
+
+Bash
+sudo nano /etc/crowdsec/scenarios/nginx-404-bf.yaml
+Paste the following YAML configuration exactly:
+
+YAML
+type: leaky_bucket
+name: local/nginx-404-bf
+description: "Block IPs triggering more than 10 404 errors"
+# Filter specifically for Nginx access logs containing a 404 status code
+filter: "evt.Meta.log_type == 'http_access-log' && evt.Parsed.status == '404'"
+groupby: "evt.Meta.source_ip"
+capacity: 10          # Number of 404s allowed before triggering the block
+leakspeed: 30s        # The bucket empties 1 count every 30 seconds
+duration: 4h          # How long the malicious IP will be banned (e.g., 4 hours)
+labels:
+  service: http
+  type: scan
+  remediation: true
+Save and close the file (Ctrl+O, Enter, Ctrl+X).
+
+Step 3: Tell CrowdSec Where Your Nginx Logs Live
+CrowdSec needs to monitor your Nginx access logs to catch these events. Open your data acquisition configuration file:
+
+Bash
+sudo nano /etc/crowdsec/acquis.yaml
+Add the following block to the bottom of the file (adjust the filenames paths if your Laravel site writes to a custom log file location):
+
+YAML
+filenames:
+  - /var/log/nginx/access.log
+  - /var/log/nginx/*access.log
+labels:
+  type: nginx
+---
+filenames:
+  - /var/log/nginx/error.log
+  - /var/log/nginx/*error.log
+labels:
+  type: nginx
+Save and close the file.
+
+Step 4: Configure Nginx to Pass Real IPs (Crucial for AWS WAF)
+Because your application is behind AWS WAF, Nginx might see AWS load balancer IP addresses instead of the attacker's actual IP address. We must ensure Nginx extracts the real client IP from the X-Forwarded-For header.
+
+Open your primary Nginx configuration file:
+
+Bash
+sudo nano /etc/nginx/nginx.conf
+Inside the http { ... } block, ensure these lines are present:
+
+Nginx
+real_ip_header X-Forwarded-For;
+set_real_ip_from 0.0.0.0/0; # In production, restrict this to your specific AWS VPC / ALB CIDR range
+Test your Nginx syntax and reload the service:
+
+Bash
+sudo nginx -t
+sudo systemctl reload nginx
+Step 5: Restart CrowdSec and Test
+Restart the core CrowdSec security engine to load the new data acquisition paths and your custom 404 brute-force rule:
+
+Bash
+sudo systemctl restart crowdsec
+How to test your new rule:
+From a separate machine or external terminal, intentionally trigger 11 rapid 404 requests against your Laravel application:
+
+Bash
+for i in {1..11}; do curl -I https://yourdomain.com/non-existent-page-${i}; done
+Now, check the active alerts on your staging server:
+
+Bash
+sudo cscli decisions list
+You will see the target external IP blocked under the local/nginx-404-bf rule. Within 10 seconds, your AWS WAF bouncer will automatically inherit this decision and block the IP at the AWS infrastructure edge!
