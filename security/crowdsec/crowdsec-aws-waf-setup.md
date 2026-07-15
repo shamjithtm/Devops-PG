@@ -470,3 +470,40 @@ Now, check the active alerts on your staging server:
 Bash
 sudo cscli decisions list
 You will see the target external IP blocked under the local/nginx-404-bf rule. Within 10 seconds, your AWS WAF bouncer will automatically inherit this decision and block the IP at the AWS infrastructure edge!
+
+
+
+
+Step 1: Update the CrowdSec Hub Index
+Before installing, make sure your local server has the absolute latest list of security rules from the official CrowdSec repository:
+
+Bash
+sudo cscli hub update
+Step 2: Install the Matching Collections
+Run this single command to install the official bundles that contain all the CVE, http, nginx, ssh, and auditd rules from your list:
+
+Bash
+sudo cscli collections install \
+  crowdsecurity/nginx \
+  crowdsecurity/http-cve \
+  crowdsecurity/base-http-scenarios \
+  crowdsecurity/sshd \
+  crowdsecurity/auditd
+Step 3: Reload the CrowdSec Engine
+For the security engine to actively read these newly downloaded rules and begin applying them against your logs, reload the background service:
+
+Bash
+sudo systemctl reload crowdsec
+📊 How to Verify They Are Working
+Once you complete the steps above, you can confirm everything is installed and live using these verification commands:
+
+To see active collections:
+
+Bash
+sudo cscli collections list
+You will see ✔️ enabled next to the collections you just installed.
+
+To see the exact directory listing from your message:
+
+Bash
+ls -l /etc/crowdsec/scenarios/
